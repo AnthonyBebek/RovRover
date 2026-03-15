@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "RoverConfig.h"
-#include "MotorControl.h"
+#include "../include/RoverConfig.h"
+#include "../include/MotorControl.h"
 
 int speedToPWM(float speed) {
     float normalized = speed / MAX_LINEAR_VELOCITY; // Normalize to -1.0 to 1.0
@@ -23,14 +23,12 @@ void setMotor(int in1, int in2, int pwm){
 
 void setLeftMotorSpeed(float speed){
     int pwm = speedToPWM(speed);
-    setMotor(FR_IN, FR_IN, pwm);
-    setMotor(FL_IN, FL_IN, pwm);
+    setMotor(LF_IN, LR_IN, pwm);
 }
 
 void setRightMotorSpeed(float speed){
     int pwm = speedToPWM(speed);
-    setMotor(BR_IN, BR_IN, pwm);
-    setMotor(BL_IN, BL_IN, pwm);
+    setMotor(RF_IN, RR_IN, pwm);
 }
 
 void stopMotors(){
@@ -40,11 +38,11 @@ void stopMotors(){
 
 void initMotors() {
     // Initialize motor control pins
-    pinMode(FR_IN, OUTPUT);
-    pinMode(FL_IN, OUTPUT);
-    pinMode(BR_IN, OUTPUT);
-    pinMode(BL_IN, OUTPUT);
-    
+    pinMode(LF_IN, OUTPUT);
+    pinMode(LR_IN, OUTPUT);
+    pinMode(RF_IN, OUTPUT);
+    pinMode(RR_IN, OUTPUT);
+
     stopMotors(); // Ensure motors are stopped at startup
 }
 

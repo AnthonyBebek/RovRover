@@ -9,10 +9,13 @@
 #define SDA2 35 // I2C bus 2 (Encoder B)
 #define SCL2 33 // I2C bus 2 (Encoder B)
 
-#define FR_IN 12 // Driver 1
-#define FL_IN 11 // Driver 1
-#define BR_IN 9 // Driver 2
-#define BL_IN 7 // Driver 2
+#define SDA3 18 // I2C bus 3 (Unused, reserved for future sensors)
+#define SCL3 16 // I2C bus 3 (Unused, reserved for future sensors)
+
+#define LF_IN 12 // Driver 1 (Left Forward)
+#define LR_IN 11 // Driver 1 (Left Reverse)
+#define RF_IN 9 // Driver 2 (Right Forward)
+#define RR_IN 7 // Driver 2 (Right Reverse)
 
 // Rover parameters
 #define WHEEL_RADIUS 0.03 // Radius of the wheels in meters (30 mm)

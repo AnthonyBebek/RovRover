@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "RoverConfig.h"
-#include "encoderControl.h"
-#include "motorControl.h"
+#include "../include/encoderControl.h"
+#include "../include/motorControl.h"
 
 #define CMD_BUFFER 64
 
@@ -77,6 +77,7 @@ void loop() {
         updateEncoders();
         getEncoderDistances();
         getEncoderTicks();
+        debugEncoderAngles();
         lastUpdate = millis();
     }
 }

@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "RoverConfig.h"
-#include "encoderControl.h"
+#include "../include/encoderControl.h"
 
 // Define different buses
 TwoWire WireA(0); // I2C bus 1
