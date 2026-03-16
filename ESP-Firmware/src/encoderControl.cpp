@@ -13,11 +13,14 @@ AS5600 encoderB(&WireB);
 long left_ticks = 0;
 long right_ticks = 0;
 
-int last_left_angle = 0;
-int last_right_angle = 0;
+long last_left_angle = 0;
+long last_right_angle = 0;
 
 const float WHEEL_CIRCUMFERENCE = 2 * PI * WHEEL_RADIUS; // Circumference of the wheel in meters
 const float DISTANCE_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION; // Distance traveled per tick in meters
+
+PID leftPID(LEFT_KP, LEFT_KI, LEFT_KD);
+PID rightPID(RIGHT_KP, RIGHT_KI, RIGHT_KD);
 
 void initEncoders() {
     WireA.begin(SDA1, SCL1);
@@ -27,6 +30,18 @@ void initEncoders() {
     }
     if (!encoderB.begin()) {
         Serial.println("Failed to initialize encoder B");
+    }
+    // Flip direction of encoder A if needed
+    if (LEFT_DIRECTION == -1) {
+        encoderA.setDirection(AS5600_COUNTERCLOCK_WISE);
+    } else {
+        encoderA.setDirection(AS5600_CLOCK_WISE);
+    }
+    // Flip direction of encoder B if needed
+    if (RIGHT_DIRECTION == -1) {
+        encoderB.setDirection(AS5600_COUNTERCLOCK_WISE);
+    } else {
+        encoderB.setDirection(AS5600_CLOCK_WISE);
     }
 }
 
@@ -56,7 +71,7 @@ bool scanI2CWireB() {
 return false;
 }
 
-void updateEncoder(AS5600 &encoder, int &lastAngle, long &ticks) {
+void updateEncoder(AS5600 &encoder, long &lastAngle, long &ticks) {
     if (!encoder.isConnected()) {
         return; // Skip if encoder is not connected
     }
@@ -77,12 +92,20 @@ void updateEncoders() {
     updateEncoder(encoderB, last_right_angle, right_ticks);
 }
 
-void getEncoderTicks() {
+int getEncoderTicks(AS5600 &encoder) {
+    // Returns ticks for the specified encoder
+    if (&encoder == &encoderA) {
+        return left_ticks;
+    } else if (&encoder == &encoderB) {
+        return right_ticks;
+    }
+    return 0; // Default case, should not happen
+}
 
-    // To avoid partial updates, we read both encoders and then print the results together
+void readEncoderTicks() {
+    // Prints encoder ticks (same as old getEncoderTicks)
     long l = left_ticks;
     long r = right_ticks;
-
     Serial.print("ENC ");
     Serial.print(l);
     Serial.print(' ');
@@ -126,4 +149,22 @@ void getEncoderDistances() {
     Serial.print(right_distance, 4);
     Serial.print(' ');
     Serial.println(millis());
+}
+
+float meters_per_tick = (2 * PI * WHEEL_RADIUS) / TICKS_PER_REVOLUTION;
+
+int getEncoderDeltaTicks(AS5600 &encoder, long &lastAngle) {
+    int current_angle = encoder.readAngle();
+    int delta = current_angle - lastAngle;
+    if (delta > 2048) {
+        delta -= 4096; // Handle wrap-around
+    } else if (delta < -2048) {
+        delta += 4096; // Handle wrap-around
+    }
+    lastAngle = current_angle;
+    return delta;
+}
+
+float getWheelVelocity(int delta_ticks, float dt){
+    return (delta_ticks * meters_per_tick) / dt; // Velocity in m/s
 }
