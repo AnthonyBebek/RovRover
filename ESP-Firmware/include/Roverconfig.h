@@ -6,11 +6,12 @@
 
 #define SDA1 39 // I2C bus 1 (Encoder A)
 #define SCL1 37 // I2C bus 1 (Encoder A)
-#define SDA2 35 // I2C bus 2 (Encoder B)
-#define SCL2 33 // I2C bus 2 (Encoder B)
+#define SDA2 18 // I2C bus 3 (Encoder B)
+#define SCL2 16 // I2C bus 3 (Encoder B)
+#define SDA3 35 // I2C bus 2 (Encoder B)
+#define SCL3 33 // I2C bus 2 (Encoder B)
 
-#define SDA3 18 // I2C bus 3 (Unused, reserved for future sensors)
-#define SCL3 16 // I2C bus 3 (Unused, reserved for future sensors)
+
 
 #define LF_IN 12 // Driver 1 (Left Forward)
 #define LR_IN 11 // Driver 1 (Left Reverse)

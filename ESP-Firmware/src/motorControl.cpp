@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "../include/RoverConfig.h"
-#include "../include/MotorControl.h"
+#include "../include/Roverconfig.h"
+#include "../include/motorControl.h"
 #include "../include/encoderControl.h"
 
 

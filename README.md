@@ -114,6 +114,14 @@ Read ESP documentation for flashing firmware [here](./ESP-Firmware/README.md), m
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+#### Installing ROS2 Humble on Pi
+```bash docker compose up -d && docker compose execros2 /bin/bash```
+
+Setup the ros2 enviroment and test
+```bash 
+source /opt/ros/humble/setup.bash
+ros2 topic list
+```
 
 
 <!-- USAGE -->

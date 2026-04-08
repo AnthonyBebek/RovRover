@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "RoverConfig.h"
+#include "../include/Roverconfig.h"
 #include "../include/encoderControl.h"
 
 // Define different buses

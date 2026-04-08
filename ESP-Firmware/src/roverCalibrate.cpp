@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "../include/RoverConfig.h"
+#include "../include/Roverconfig.h"
 #include "../include/roverCalibrate.h"
 #include "../include/encoderControl.h"
 #include "../include/motorControl.h"
