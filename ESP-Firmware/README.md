@@ -28,6 +28,27 @@ A wiring diagram of the system can be seen here.
 1. Open this folder in VS Code with PlatformIO extension installed.
 2. Select your board in `platformio.ini` (although only the ESP32-S2 Mini is setup)
 3. Build, Upload & Monitor via PlatformIO
+> [!NOTE]
+> On some Linux systems (e.g. Kubuntu), automatic reset into bootloader mode may fail for ESP32-S2 boards using native USB (CDC).
+>
+> If uploads hang at "Connecting...", use manual boot mode:
+> 1. Hold BOOT (GPIO0)
+> 2. Press and release RESET
+> 3. Release BOOT after a second
+> 4. Retry upload immediately
+>
+> If issues persist, USB serial control lines can be disabled with:
+> `sudo stty -F /dev/ttyACM0 -hupcl`
+>
+> Then use the manual boot procedure above.
+>
+> Note: The device path (/dev/ttyACM0) may vary between connections.
+>
+>
+> Additionally, because platformIO takes a while before it actually uploads the code, its recommended to compile the bin via platformIO then upload with the command:
+> `python3 -m esptool --chip esp32s2 --port /dev/ttyACM0 write_flash 0x10000 .pio/build/lolin_s2_mini/firmware.bin`
+>
+> Note: The device path (/dev/ttyACM0) may vary between connections.
 
 ## Author
 - [Anthony Bebek](https://github.com/AnthonyBebek) 

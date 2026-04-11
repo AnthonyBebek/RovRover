@@ -1,0 +1,21 @@
+# Logs
+*.log
+
+# Build files
+build/
+install/
+log/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+# Tests
+test/
+# Resource
+resource/

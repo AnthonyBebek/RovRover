@@ -3,8 +3,8 @@
 #include "../include/encoderControl.h"
 
 // Define different buses
-TwoWire WireA(0); // I2C bus 1
-TwoWire WireB(1); // I2C bus 2
+TwoWire WireA(1); // I2C bus 1
+TwoWire WireB(0); // I2C bus 2
 
 // Define encoders on each bus
 AS5600 encoderA(&WireA);
@@ -103,9 +103,9 @@ int getEncoderTicks(AS5600 &encoder) {
 }
 
 void readEncoderTicks() {
-    // Prints encoder ticks (same as old getEncoderTicks)
-    long l = left_ticks;
-    long r = right_ticks;
+    updateEncoders(); // Ensure we have the latest tick counts
+    long l = getEncoderTicks(encoderA);
+    long r = getEncoderTicks(encoderB);
     Serial.print("ENC ");
     Serial.print(l);
     Serial.print(' ');

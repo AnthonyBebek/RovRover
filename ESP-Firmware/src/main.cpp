@@ -78,7 +78,7 @@ void setup() {
     //Serial.println("Calibrated speed RIGHT: " + String(CalibrateSpeeds(encoderB)));
     Serial.println("Ready!");
     stopMotors(); // Ensure motors are stopped after calibration
-    delay(10000); // Wait for 10 seconds to allow time for the user to open the serial monitor
+    delay(1000); // Wait for 1 second to allow time for the user to open the serial monitor
 }
 
 void loop() {
@@ -100,9 +100,9 @@ void loop() {
 
         int delta_left = getEncoderDeltaTicks(encoderA, last_left_angle);
         int delta_right = getEncoderDeltaTicks(encoderB, last_right_angle);
-        updateLeftMotorSpeed(leftPID, delta_left, dt, velocities.left);
-        updateRightMotorSpeed(rightPID, delta_right, dt, velocities.right);
+        Serial.println("ENC_LEFT" + String(delta_left) + " ENC_RIGHT " + String(delta_right));
+        //updateLeftMotorSpeed(leftPID, delta_left, dt, velocities.left);
+        //updateRightMotorSpeed(rightPID, delta_right, dt, velocities.right);
         last_pid_update = millis();
-        Serial.println("------------------------------");
     }
 }

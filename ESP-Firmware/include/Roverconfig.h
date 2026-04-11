@@ -6,10 +6,10 @@
 
 #define SDA1 39 // I2C bus 1 (Encoder A)
 #define SCL1 37 // I2C bus 1 (Encoder A)
-#define SDA2 18 // I2C bus 3 (Encoder B)
-#define SCL2 16 // I2C bus 3 (Encoder B)
-#define SDA3 35 // I2C bus 2 (Encoder B)
-#define SCL3 33 // I2C bus 2 (Encoder B)
+#define SDA3 18 // I2C bus 3 (Encoder B)
+#define SCL3 16 // I2C bus 3 (Encoder B)
+#define SDA2 35 // I2C bus 2 (Encoder B)
+#define SCL2 33 // I2C bus 2 (Encoder B)
 
 
 
@@ -40,13 +40,13 @@
 
 
 // PID controller parameters
-#define LEFT_KP 1.0 // Proportional gain
-#define LEFT_KI 0.4 // Integral gain
-#define LEFT_KD 0.01 // Derivative gain
+#define LEFT_KP 100.0 // Proportional gain
+#define LEFT_KI 0.0// Integral gain
+#define LEFT_KD 0.0 // Derivative gain
 
-#define RIGHT_KP 1.0 // Proportional gain
-#define RIGHT_KI 0.4 // Integral gain
-#define RIGHT_KD 0.01 // Derivative gain
+#define RIGHT_KP 100.0 // Proportional gain
+#define RIGHT_KI 0.0// Integral gain
+#define RIGHT_KD 0.0 // Derivative gain
 
 
 #endif

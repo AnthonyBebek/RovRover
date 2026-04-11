@@ -1,0 +1,21 @@
+services:
+  controller:
+    image: osrf/ros:jazzy-desktop
+    container_name: ros_jazzy_controller
+    network_mode: host
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XDG_RUNTIME_DIR=/tmp/runtime-root
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+    volumes:
+      - ./workspace:/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./entrypoint.sh:/entrypoint.sh
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    devices:
+      - /dev/dri:/dev/dri
+    entrypoint: ["/entrypoint.sh"]
