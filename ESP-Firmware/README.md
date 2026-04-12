@@ -27,7 +27,8 @@ A wiring diagram of the system can be seen here.
 ## Quick Start
 1. Open this folder in VS Code with PlatformIO extension installed.
 2. Select your board in `platformio.ini` (although only the ESP32-S2 Mini is setup)
-3. Build, Upload & Monitor via PlatformIO
+3. Edit the `Roverconfig.h` file to fit within the physical needs of your rover, you'll also need to re-tune the PID controller with the values set within here.
+4. Build, Upload & Monitor via PlatformIO
 > [!NOTE]
 > On some Linux systems (e.g. Kubuntu), automatic reset into bootloader mode may fail for ESP32-S2 boards using native USB (CDC).
 >

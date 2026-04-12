@@ -40,11 +40,6 @@ void handleCommand(char* cmd) {
         Serial.println("Calibrated speed RIGHT: " + String(CalibrateSpeeds(encoderB)));
 
     }
-    else if (strncmp(cmd, "FULL", 4) == 0) {
-
-        setMotor(RF_IN, RR_IN, 255);
-        setMotor(LF_IN, LR_IN, 255);
-    }
 }
 
 void readSerial() {
@@ -79,33 +74,20 @@ void setup() {
     initMotors();
     initEncoders();
 
-    //Serial.println("Calibrated speed LEFT: " + String(CalibrateSpeeds(encoderA)));
-    //Serial.println("Calibrated speed RIGHT: " + String(CalibrateSpeeds(encoderB)));
     Serial.println("Ready!");
     stopMotors(); // Ensure motors are stopped after calibration
-    delay(10000); // Wait for 1 second to allow time for the user to open the serial monitor
+    delay(1000); // Wait for 1 second to allow time for the user to open the serial monitor
 }
 
 void loop() {
     // Get all possible data from encoder
     readSerial();
 
-    if (millis() - lastUpdate > 1000) { // Update every 1000 ms (1 Hz)
-        //print seperator to make it easier to see
-        //Serial.println("------------------------------------");
-        //updateEncoders();
-        //getEncoderDistances();
-        //readEncoderTicks();
-        //debugEncoderAngles();
-        lastUpdate = millis();
-    }
-
     float dt = (millis() - last_pid_update) / 1000.0; // Convert to seconds
     if (dt >= 0.02) { // Update PID every 100 ms
 
         int delta_left = getEncoderDeltaTicks(encoderA, last_left_angle);
         int delta_right = getEncoderDeltaTicks(encoderB, last_right_angle);
-        //Serial.println("ENC_LEFT" + String(delta_left) + " ENC_RIGHT " + String(delta_right));
         updateLeftMotorSpeed(leftPID, delta_left, dt, velocities.left);
         updateRightMotorSpeed(rightPID, delta_right, dt, velocities.right);
         last_pid_update = millis();

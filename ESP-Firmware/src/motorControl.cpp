@@ -75,15 +75,12 @@ void updateLeftMotorSpeed(PID &pid, int delta_ticks, float dt, float speed){
     float measured_vel = getWheelVelocity(delta_ticks, dt);
     int pwm = computePID(pid, speed, measured_vel, dt, MIN_PWM_LEFT);
     setMotor(LF_IN, LR_IN, pwm);
-    //Serial.println("Left Motor - Target: " + String(speed) + " m/s, Measured: " + String(measured_vel) + " m/s, PWM: " + String(pwm));
 }
 
 void updateRightMotorSpeed(PID &pid, int delta_ticks, float dt, float speed){
     float measured_vel = getWheelVelocity(delta_ticks, dt);
     int pwm = computePID(pid, speed, measured_vel, dt, MIN_PWM_RIGHT);
     setMotor(RF_IN, RR_IN, pwm);
-    Serial.println(String(measured_vel)+","+String(speed)+","+String(pwm));
-    //Serial.println("Right Motor - Target: " + String(speed) + " m/s, Measured: " + String(measured_vel) + " m/s, PWM: " + String(pwm));
 }
 
 void stopMotors(){

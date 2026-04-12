@@ -30,9 +30,6 @@
 #define MAX_LINEAR_VELOCITY 0.3 // Maximum linear velocity in m/s
 #define MAX_ANGULAR_VELOCITY 3.14/2 // Maximum angular velocity in rad/s (180 degrees/s)
 
-//#define MIN_PWM_LEFT 106 // Minimum PWM value for motor control (Printed in calibration)
-//#define MIN_PWM_RIGHT 102 // Minimum PWM value for motor control (Printed in calibration)
-
 #define MIN_PWM_LEFT 70 // Minimum PWM value for motor control (Printed in calibration)
 #define MIN_PWM_RIGHT 70 // Minimum PWM value for motor control (Printed in calibration)
 
