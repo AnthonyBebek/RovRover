@@ -154,7 +154,7 @@ void getEncoderDistances() {
 float meters_per_tick = (2 * PI * WHEEL_RADIUS) / TICKS_PER_REVOLUTION;
 
 int getEncoderDeltaTicks(AS5600 &encoder, long &lastAngle) {
-    int current_angle = encoder.readAngle();
+    long current_angle = encoder.readAngle();
     int delta = current_angle - lastAngle;
     if (delta > 2048) {
         delta -= 4096; // Handle wrap-around

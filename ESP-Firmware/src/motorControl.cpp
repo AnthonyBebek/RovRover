@@ -10,29 +10,33 @@ float target_right_speed = 0;
 targetVelocities velocities = {0, 0}; // Initialize target velocities to zero
 
 int computePID(PID &pid, float target_vel, float measured_vel, float dt, int min_pwm) {
+
     float error = target_vel - measured_vel;
-    pid.integral += error * dt;
     float derivative = (error - pid.last_error) / dt;
+    float integral_candidate = pid.integral + error * dt;
+    float output = pid.Kp * error +
+                   pid.Ki * integral_candidate +
+                   pid.Kd * derivative;
 
-    float output = (pid.Kp * error + pid.Ki * pid.integral + pid.Kd * derivative) * PWM_PER_MS; // Convert velocity error to PWM output
+    float feedforward = FEEDFORWARD_GAIN * target_vel; // Feedforward term to help reach the target speed faster
+    output += feedforward;
 
-    // First check if target vel is zero
     if (fabs(target_vel) < 0.001) {
-        // If target velocity is zero, we want to stop the motor, so we set output to zero
-        if (fabs(output) < min_pwm) {
-            output = 0; // If the output is within the deadzone, set it to zero
-        }
-        else{
-            // Add minimum PWM to overcome motor deadzone
-            output = constrain(output, min_pwm, MAX_PWM); // Ensure output is within max limits
-            if (output > 0) output += min_pwm;
-            if (output < 0) output -= min_pwm;
-        }
+        pid.integral = 0;
+        pid.last_error = 0;
+        return 0;
     }
 
-    // Constrain output to max PWM limits
+    if (output > 0) output += min_pwm;
+    else if (output < 0) output -= min_pwm;
+
     if (output > MAX_PWM) output = MAX_PWM;
     if (output < -MAX_PWM) output = -MAX_PWM;
+
+    // anti-windup: only accept integral if NOT saturated
+    if (output < MAX_PWM && output > -MAX_PWM) {
+        pid.integral = integral_candidate;
+    }
 
     pid.last_error = error;
     return (int)output;
@@ -71,14 +75,15 @@ void updateLeftMotorSpeed(PID &pid, int delta_ticks, float dt, float speed){
     float measured_vel = getWheelVelocity(delta_ticks, dt);
     int pwm = computePID(pid, speed, measured_vel, dt, MIN_PWM_LEFT);
     setMotor(LF_IN, LR_IN, pwm);
-    Serial.println("Left Motor - Target: " + String(speed) + " m/s, Measured: " + String(measured_vel) + " m/s, PWM: " + String(pwm));
+    //Serial.println("Left Motor - Target: " + String(speed) + " m/s, Measured: " + String(measured_vel) + " m/s, PWM: " + String(pwm));
 }
 
 void updateRightMotorSpeed(PID &pid, int delta_ticks, float dt, float speed){
     float measured_vel = getWheelVelocity(delta_ticks, dt);
     int pwm = computePID(pid, speed, measured_vel, dt, MIN_PWM_RIGHT);
-    Serial.println("Right Motor - Target: " + String(speed) + " m/s, Measured: " + String(measured_vel) + " m/s, PWM: " + String(pwm));
     setMotor(RF_IN, RR_IN, pwm);
+    Serial.println(String(measured_vel)+","+String(speed)+","+String(pwm));
+    //Serial.println("Right Motor - Target: " + String(speed) + " m/s, Measured: " + String(measured_vel) + " m/s, PWM: " + String(pwm));
 }
 
 void stopMotors(){
