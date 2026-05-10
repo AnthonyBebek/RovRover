@@ -19,3 +19,6 @@ Makefile
 test/
 # Resource
 resource/
+
+# Syncthing syncing conflicts
+*.sync-conflict-*

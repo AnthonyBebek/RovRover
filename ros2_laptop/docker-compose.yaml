@@ -1,6 +1,6 @@
 services:
   controller:
-    image: osrf/ros:jazzy-desktop
+    build: .
     container_name: ros_jazzy_controller
     network_mode: host
     ipc: host
@@ -9,6 +9,10 @@ services:
       - QT_X11_NO_MITSHM=1
       - XDG_RUNTIME_DIR=/tmp/runtime-root
       - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cp
+      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-127.0.0.1:11811}
+      - ROS_SUPER_CLIENT=1
+      - NO_AT_BRIDGE=1
     volumes:
       - ./workspace:/workspace
       - /tmp/.X11-unix:/tmp/.X11-unix
@@ -16,6 +20,6 @@ services:
     working_dir: /workspace
     stdin_open: true
     tty: true
-    devices:
-      - /dev/dri:/dev/dri
+    #devices:
+    #  - /dev:/dev:rw
     entrypoint: ["/entrypoint.sh"]
