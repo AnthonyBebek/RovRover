@@ -1,10 +1,6 @@
-#!/bin/bash
-set -e  # Stop on error
+cd ~/RovRover/ros2_rover
 
-echo "=== Starting YDLIDAR Installation ==="
-
-# 1. Build and install YDLidar-SDK
-echo "Building YDLidar-SDK..."
+# === Build YDLidar-SDK ===
 cd YDLidar-SDK
 rm -rf build 2>/dev/null || true
 mkdir -p build && cd build
@@ -13,27 +9,22 @@ cmake ..
 make -j2
 sudo make install
 
-# Return to workspace root
-cd ../../
+# Go back to main folder
+cd ~/RovRover/ros2_rover
 
-# 2. Build the ROS 2 driver
-echo "Building ROS 2 ydlidar driver..."
+# === Build ROS driver ===
 cd workspace
-
 rm -rf build/ install/ log/ 2>/dev/null || true
 
 colcon build --packages-select ydlidar --symlink-install --event-handlers console_direct+
 
-# 3. Run startup script
-echo "Running YDLIDAR startup script..."
+# === Startup script ===
 cd src/ydlidar/startup
 sudo chmod 777 ./*
 sudo sh initenv.sh
 
-# 4. Source
-cd ../../..
-echo "Sourcing workspace..."
+# === Source ===
+cd ~/RovRover/ros2_rover/workspace
 source install/setup.bash
 
-echo "=== Installation Finished ==="
-echo "You can now try: ros2 launch ydlidar ydlidar_launch.py"
+echo "Done!"
